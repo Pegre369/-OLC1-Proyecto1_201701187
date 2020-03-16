@@ -185,7 +185,7 @@ namespace Proyecto1_201701187
 
                 }
 
-                //Verificacion si separa la Expresion Regular  es correcta 
+              /*//Verificacion si separa la Expresion Regular  es correcta 
                  for (int j = 0; j < Caracteres.Count; j++) {
 
                     if (Caracteres[j] != null) {
@@ -195,7 +195,8 @@ namespace Proyecto1_201701187
                     }
                 }
 
-                break;
+                break;*/
+
                 Caracteres.Clear();
             }
 
