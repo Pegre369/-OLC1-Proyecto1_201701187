@@ -1,0 +1,208 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Proyecto1_201701187
+{
+    public class Extraer_ER
+    {
+
+        public static List<Tokens> ListaTokens;
+        public static List<string> ERs = new List<string>();
+        public static String cadena;
+        public static List<Lista_ER> Caracteres = new List<Lista_ER>();
+
+        public void ER(List<Tokens> Aceptacion)
+        {
+
+            ListaTokens = Aceptacion;
+
+            //Recorrido para sacar la ER de la tabla tokens
+            for (int i = 0; i < ListaTokens.Count; i++)
+            {
+
+                //Verificar si es >
+                if (ListaTokens[i].getId() == 36)
+                {
+                    //Ciclo para validar todo lo que esta despues del > y antes del punto y coma
+                    while (ListaTokens[i].getId() != 31)
+                    {
+                        //Verificar si es el punto de concatenacion
+                        if (ListaTokens[i].getId() == 17)
+                        {
+                            if (cadena == null)
+                            {
+
+                                cadena = ListaTokens[i].getLexema();
+                                i++;
+                                //Valido todo lo que esta antes del punto y coma
+
+                                while (ListaTokens[i].getId() != 31)
+                                {
+                                    cadena = cadena + ListaTokens[i].getLexema();
+                                    i++;
+                                }
+
+                                ERs.Add(cadena);
+                                cadena = null;
+
+                            }
+
+
+                        }else
+                        {
+                            i++;
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+
+
+            /*  //Verificar si mi Linkedlist esta llena
+               for (int i = 0; i < ERs.Count; i++) {
+                  if(ERs[i]!=null){
+                    Console.WriteLine(ERs[i]);
+                  }
+              }*/
+
+            Separacion();
+        }
+
+        public void agregar(String etiqueta, String descripcion)
+        {
+
+            Lista_ER nuevo = new Lista_ER(etiqueta, descripcion);
+            Caracteres.Add(nuevo);
+
+        }
+
+        public void Separacion()
+        {
+
+            String cc = "";
+            String er = "";
+            char caracter = ' ';
+            int estado = 0;
+
+            //Aqui recorro la linkedlist que contiene la ER 
+            for (int i = 0; i < ERs.Count; i++)
+            {
+                agregar(".", "Concatenacion");
+
+                er = ERs[i];
+
+                //Aqui separo la ER de caracter por caracter y lo guardo en una linkedlist de caracteres
+                for (int j = 0; j < er.Length; j++)
+                {
+
+                    caracter = er[j];
+
+                    switch (estado)
+                    {
+
+                        case 0:
+
+                            if (caracter == (char)46)
+                            {
+                                agregar(Char.ToString(caracter), "Concatenacion");
+                                estado = 0;
+                            }
+                            else if (caracter == (char)124)
+                            {
+                                agregar(Char.ToString(caracter), "Or");
+                                estado = 0;
+                            }
+                            else if (caracter == (char)63)
+                            {
+                                agregar(Char.ToString(caracter), "aparicion");
+                                estado = 0;
+                            }
+                            else if (caracter == (char)42)
+                            {
+                                agregar(Char.ToString(caracter), "kleen");
+                                estado = 0;
+                            }
+                            else if (caracter == (char)43)
+                            {
+                                agregar(Char.ToString(caracter), "positiva");
+                                estado = 0;
+                            }
+                            else if (caracter == (char)34)
+                            {
+                                estado = 1;
+                            }
+                            else if (caracter == (char)123)
+                            {
+                                estado = 2;
+                            }
+                            else if (caracter == (char)59)
+                            {
+
+                            }
+
+                            break;
+
+                        case 1:
+
+                            if (caracter != (char)34)
+                            {
+                                cc += caracter;
+                            }
+                            else
+                            {
+
+                                agregar(cc, "cadena");
+                                cc = "";
+                                estado = 0;
+                            }
+
+                            break;
+
+                        case 2:
+
+                            if (caracter != (char)125)
+                            {
+                                cc += caracter;
+                            }
+                            else
+                            {
+
+                                agregar(cc, "identificador");
+                                cc = "";
+                                estado = 0;
+                            }
+
+                            break;
+
+                    }
+
+                }
+
+                //Verificacion si separa la Expresion Regular  es correcta 
+                 for (int j = 0; j < Caracteres.Count; j++) {
+
+                    if (Caracteres[j] != null) {
+
+                        Console.WriteLine(Caracteres[j].getEtiqueta() + " -> " + Caracteres[j].getDescripcion());
+
+                    }
+                }
+
+                break;
+                Caracteres.Clear();
+            }
+
+
+
+        }
+
+
+    }
+}

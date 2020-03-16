@@ -73,6 +73,8 @@ namespace Proyecto1_201701187
 
         private void loadThompsonToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Lista_Aceptacion.Clear();
+            Lista_Error.Clear();
 
             Scanner iniciar = new Scanner();
             iniciar.scanner(entrada.Text);
@@ -89,6 +91,9 @@ namespace Proyecto1_201701187
             }else
             {
                 Console.WriteLine("Todo bien, todo correcto");
+                Extraer_ER mandar = new Extraer_ER();
+                mandar.ER(Lista_Aceptacion);
+
             }
 
             
