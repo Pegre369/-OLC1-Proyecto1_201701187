@@ -392,7 +392,6 @@ namespace Proyecto1_201701187
 
         }
 
-
         public void Palabra_Reservada(String Lexema)
         {
             String Palabra;
