@@ -28,12 +28,12 @@ namespace Proyecto1_201701187
         {
             get
             {
-                return Begin;
+                return begin;
             }
 
             set
             {
-                Begin = value;
+                begin = value;
             }
         }
 
@@ -41,12 +41,12 @@ namespace Proyecto1_201701187
         {
             get
             {
-                return End;
+                return end;
             }
 
             set
             {
-                End = value;
+                end = value;
             }
         }
 
@@ -54,12 +54,12 @@ namespace Proyecto1_201701187
         {
             get
             {
-                return Symbol;
+                return symbol;
             }
 
             set
             {
-                Symbol = value;
+                symbol = value;
             }
         }
 

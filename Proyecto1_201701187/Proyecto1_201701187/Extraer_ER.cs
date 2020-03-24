@@ -13,6 +13,8 @@ namespace Proyecto1_201701187
         public static List<string> ERs = new List<string>();
         public static String cadena;
         public static List<Lista_ER> Caracteres = new List<Lista_ER>();
+        public static List<Thompson> guardado = new List<Thompson>();
+        public static int index=1;
 
         public void ER(List<Tokens> Aceptacion)
         {
@@ -65,12 +67,12 @@ namespace Proyecto1_201701187
 
 
 
-            /*  //Verificar si mi Linkedlist esta llena
+              //Verificar si mi Linkedlist esta llena
                for (int i = 0; i < ERs.Count; i++) {
                   if(ERs[i]!=null){
                     Console.WriteLine(ERs[i]);
                   }
-              }*/
+              }
 
             Separacion();
         }
@@ -94,7 +96,7 @@ namespace Proyecto1_201701187
             //Aqui recorro la linkedlist que contiene la ER 
             for (int i = 0; i < ERs.Count; i++)
             {
-                agregar(".", "Concatenacion");
+                
 
                 er = ERs[i];
 
@@ -138,8 +140,9 @@ namespace Proyecto1_201701187
                             {
                                 estado = 1;
                             }
-                            else if (caracter == (char)123)
+                            else if (Char.IsLetter(caracter))
                             {
+                                cc += caracter;
                                 estado = 2;
                             }
                             else if (caracter == (char)59)
@@ -167,7 +170,15 @@ namespace Proyecto1_201701187
 
                         case 2:
 
-                            if (caracter != (char)125)
+                            if (Char.IsLetter(caracter))
+                            {
+                                cc += caracter;
+                            }
+                            else if (Char.IsDigit(caracter))
+                            {
+                                cc += caracter;
+                            }
+                            else if (caracter == (char)95)
                             {
                                 cc += caracter;
                             }
@@ -176,7 +187,9 @@ namespace Proyecto1_201701187
 
                                 agregar(cc, "identificador");
                                 cc = "";
+                                j--;
                                 estado = 0;
+                                
                             }
 
                             break;
@@ -185,18 +198,22 @@ namespace Proyecto1_201701187
 
                 }
 
-              /*//Verificacion si separa la Expresion Regular  es correcta 
-                 for (int j = 0; j < Caracteres.Count; j++) {
+               /* //Verificacion si separa la Expresion Regular  es correcta 
+                   for (int j = 0; j < Caracteres.Count; j++) {
 
-                    if (Caracteres[j] != null) {
+                      if (Caracteres[j] != null) {
 
-                        Console.WriteLine(Caracteres[j].getEtiqueta() + " -> " + Caracteres[j].getDescripcion());
+                          Console.WriteLine(Caracteres[j].getEtiqueta() + " -> " + Caracteres[j].getDescripcion());
 
-                    }
-                }
+                      }
+                  }
 
-                break;*/
+                  break;*/
 
+
+                Thompson thom = new Thompson(Caracteres, "AFN" + index);
+                guardado.Add(thom);
+                index++;
                 Caracteres.Clear();
             }
 

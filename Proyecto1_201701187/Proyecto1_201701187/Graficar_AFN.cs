@@ -45,7 +45,7 @@ namespace Proyecto1_201701187
             {
                 try
                 {
-                    System.Diagnostics.Process.Start(this.ruta); //Hace que la imagen se abra
+                    System.Diagnostics.Process.Start(this.ruta); 
                     return this.ruta;
                 }
                 catch (Exception ex)

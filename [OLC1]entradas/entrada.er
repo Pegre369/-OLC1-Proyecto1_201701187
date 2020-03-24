@@ -11,7 +11,7 @@ CONJ: letra -> a~z;
 
 //Expresiones Regulares
 er1 -> . letra *|letra |  digito "_";
-er2 -> . . . *| ."c""d" . "a" "b" "b" "c" +"d"
+er2 -> . . . *| ."c""d" . "a" "b" "b" "c" +"d";
 
 
 %%
