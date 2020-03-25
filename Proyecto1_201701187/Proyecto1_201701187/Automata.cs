@@ -109,12 +109,12 @@ namespace Proyecto1_201701187
 
                 if (des.getDescripcion().Equals("cadena")|| des.getDescripcion().Equals("identificador"))
                 {
-
-                    if (!Alfabet.Any(a=>a.getEtiqueta().Equals(des.getEtiqueta())) && !Alfabet.Any(a => a.getDescripcion().Equals(des.getDescripcion())))
+                    if (!(Alfabet.Any(u=>u.getEtiqueta().Equals(des.getEtiqueta())&&u.getDescripcion().Equals(des.getDescripcion()))))
                     {
-                        Alfabet.Add(des);
+                            Alfabet.Add(des);
+                    
                     }
-
+                    
                 }
 
             }
@@ -136,7 +136,7 @@ namespace Proyecto1_201701187
             texto += ";" + "\n";
             texto += "\tnode [shape=circle];" + "\n";
             
-            texto += "\tsecret_node [style=invis];\n" + "	secret_node -> " + this.Initial.Identifier + " [label=\"inicio\"];" + "\n";
+            texto += "\tnode [shape=point];inicio;\n" + "	inicio -> " + this.Initial.Identifier + " [label=\"inicio\"];" + "\n";
             List<string> duplicados = new List<string>();
             List<Estado> FiltroEstados = new List<Estado>();
             List<Trancision> FiltroTancisiones = new List<Trancision>();

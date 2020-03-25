@@ -19,7 +19,7 @@ namespace Proyecto1_201701187
             this.er = er;
             this.name_file = name;
             Root = create();
-            this.Root.creation_alphabet(er);
+            Root.creation_alphabet(er);
             Root.graph(Name_file);
 
             Sub_Conjuntos s = new Sub_Conjuntos(Root);
@@ -106,10 +106,12 @@ namespace Proyecto1_201701187
                     return answer_appearance;
                     break;
                 case "cadena":
+                   // root.Alfabet.Add(er.ElementAt(i));
                     Automata section_Cadena = afnSimple(er.ElementAt(i));
                     return section_Cadena;
                     break;
                 case "identificador":
+                   // root.Alfabet.Add(er.ElementAt(i));
                     Automata section_Id = afnSimple(er.ElementAt(i));
                     return section_Id;
                     break;

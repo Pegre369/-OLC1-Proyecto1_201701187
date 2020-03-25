@@ -9,7 +9,6 @@ namespace Proyecto1_201701187
     public class Sub_Conjuntos
     {
         List<Lista_ER> alfabeto;
-        Estado inicio;
         int inicial;
         Estado afdInicial;
         //PILAS Y ARREGLOS PARA EL MANEJO DE DATOS
@@ -24,7 +23,7 @@ namespace Proyecto1_201701187
         {
             alfabeto = a.Alfabet;
             AdaptaEstados(a);
-            inicial = a.Initial.Name_state;
+            inicial = a.Initial.Identifier;
             afdInicial = a.Initial;
             automata = a;
             Calculo();
@@ -67,12 +66,12 @@ namespace Proyecto1_201701187
                             //SI LA LLAVE DEL ESTADO NO EXISTE PREVIAMENTE
                             for (int j = 0; j < estadotmp.inserted.Count; j++)
                             {
-                                result = Cerradura(estadotmp, estadotmp.inserted.ElementAt(j), new Lista_ER("ε", "Epsilon"), estadotmp.Name_state);
+                                result = Cerradura(estadotmp, estadotmp.inserted.ElementAt(j), new Lista_ER("ε", "Epsilon"), estadotmp.Identifier);
                             }
                             if (result != null)
                             {
                                 //SE ASIGNA UN NOMBRE UNICO
-                                result.Name_state = tablaDeEstados.Count + 1;
+                                result.Identifier = tablaDeEstados.Count + 1;
 
                                 //SE AGREGA EL ESTADO A LA TABLA
                                 tablaDeEstados.Add(result);
@@ -107,8 +106,7 @@ namespace Proyecto1_201701187
             }
             return null;
         }
-
-
+        
         private bool EstadoPrevio(Estado estadoactual)
         {
             bool existe = false;
@@ -151,14 +149,14 @@ namespace Proyecto1_201701187
             {
                 for (int j = 0; j < estados.Count; j++)
                 {
-                    if (estado.inserted.ElementAt(i) == estados.ElementAt(j).Begin.Name_state)
+                    if (estado.inserted.ElementAt(i) == estados.ElementAt(j).Begin.Identifier)
                     {
-                        if (estados.ElementAt(j).Symbol.getDescripcion() == simbolo.getDescripcion() && estados.ElementAt(j).Symbol.getEtiqueta().Equals(simbolo.getEtiqueta()))
+                        if (estados.ElementAt(j).Symbol.getDescripcion().Equals(simbolo.getDescripcion()) && estados.ElementAt(j).Symbol.getEtiqueta().Equals(simbolo.getEtiqueta()))
                         {
-                            if (!temp.inserted.Contains(estados.ElementAt(j).End.Name_state))
+                            if (!temp.inserted.Contains(estados.ElementAt(j).End.Identifier))
                             {
-                                temp.inserted.Add(estados.ElementAt(j).End.Name_state);
-                                temp.key.Add(estados.ElementAt(j).End.Name_state);
+                                temp.inserted.Add(estados.ElementAt(j).End.Identifier);
+                                temp.key.Add(estados.ElementAt(j).End.Identifier);
                             }
                         }
                     }
@@ -173,7 +171,7 @@ namespace Proyecto1_201701187
             estado.final = false;
             for (int i = 0; i < estado.inserted.Count; i++)
             {
-                if (automata.Acceptance.Any(u => u.Name_state == (estado.inserted.ElementAt(i))))
+                if (automata.Acceptance.Any(u => u.Identifier == (estado.inserted.ElementAt(i))))
                 {
                     estado.final = true;
                 }
@@ -202,10 +200,10 @@ namespace Proyecto1_201701187
 
             for (int i = 0; i < estados.Count; i++)
             {
-                if (estados.ElementAt(i).Begin.Name_state == inicio)
+                if (estados.ElementAt(i).Begin.Identifier == inicio)
                 {
                     //Quizas lleve otra condicion
-                    if (estados.ElementAt(i).Symbol.getDescripcion()!= simbolo.getDescripcion() && !estados.ElementAt(i).Symbol.getEtiqueta().Equals(simbolo.getEtiqueta()))
+                    if (estados.ElementAt(i).Symbol.getDescripcion().Equals(simbolo.getDescripcion()) && estados.ElementAt(i).Symbol.getEtiqueta().Equals(simbolo.getEtiqueta()))
                     {
                         if (!estados_pendientes.Contains(estados.ElementAt(i)))
                         {
@@ -214,9 +212,9 @@ namespace Proyecto1_201701187
                     }
                 }
             }
-            while (estados_pendientes.Count >= 0)
+            while (estados_pendientes.Count > 0)
             {
-                Cerradura(estado, estados_pendientes.Pop().End.Name_state, simbolo, estado.Name_state);
+                Cerradura(estado, estados_pendientes.Pop().End.Identifier, simbolo, estado.Identifier);
             }
             if (!AFDpendientes.Contains(estado))
             {
@@ -233,7 +231,7 @@ namespace Proyecto1_201701187
             {
                 if (tablaDeEstados.ElementAt(i).final == true)
                 {
-                    str = str + "'" + tablaDeEstados.ElementAt(i).Name_state + "',";
+                    str = str + "'" + tablaDeEstados.ElementAt(i).Name_Char + "',";
                 }
             }
             if (str.EndsWith(","))
@@ -264,10 +262,11 @@ namespace Proyecto1_201701187
 
             texto += "\tgraph [label=\"" + nombre + "\", labelloc=t, fontsize=20]; \n";
             texto += "\tnode [style = filled,color = mediumseagreen];";
+            texto += "\tnode [shape=point];inicio;";
             texto += "\n";
             texto += "\tnode [shape=circle];" + "\n";
             texto += "\tnode [color=midnightblue,fontcolor=white];\n" + "	edge [color=red];" + "\n";
-
+           
             for (int i = 0; i < DescripcionDelAFD.Count; i++)
             {
                 texto += "\n";

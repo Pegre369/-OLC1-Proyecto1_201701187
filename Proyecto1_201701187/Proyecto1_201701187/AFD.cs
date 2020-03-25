@@ -27,6 +27,7 @@ namespace Proyecto1_201701187
 
         public String Description_graphviz()
         {
+            
             return begin.Name_Char + "->" + final.Name_Char + " [label=\"" + symbol.getEtiqueta() + "\"];\n";
         }
 
