@@ -55,7 +55,7 @@ namespace Proyecto1_201701187
             }
         }
         
-          public string Name_Char
+        public string Name_Char
         {
             get
             {

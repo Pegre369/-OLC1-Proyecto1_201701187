@@ -101,7 +101,6 @@ namespace Proyecto1_201701187
             }
         }
 
-
         public void creation_alphabet(List<Lista_ER>descripcion)
         {
             foreach (Lista_ER des in descripcion)
@@ -161,7 +160,7 @@ namespace Proyecto1_201701187
 
                 }
 
-                ee.Transitions = FiltroTancisiones;
+                //ee.Transitions = FiltroTancisiones;
                 FiltroEstados.Add(ee);
                 FiltroTancisiones = new List<Trancision>();
 
@@ -170,7 +169,7 @@ namespace Proyecto1_201701187
 
             texto += transicion.End.Identifier + "[shape=doublecircle]";
             texto += "}";
-            this.States = FiltroEstados;
+           // this.States = FiltroEstados;
 
             Graficar_AFN niu = new Graficar_AFN();
             niu.graficar(texto, name); 

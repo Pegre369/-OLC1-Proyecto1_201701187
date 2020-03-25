@@ -22,6 +22,7 @@ namespace Proyecto1_201701187
         public Sub_Conjuntos(Automata a)
         {
             alfabeto = a.Alfabet;
+          //  a.obtenerAcpetacion();
             AdaptaEstados(a);
             inicial = a.Initial.Identifier;
             afdInicial = a.Initial;
@@ -224,35 +225,6 @@ namespace Proyecto1_201701187
         }
 
 
-        public String ImprimeFinales()
-        {
-            String str = "[";
-            for (int i = 0; i < tablaDeEstados.Count; i++)
-            {
-                if (tablaDeEstados.ElementAt(i).final == true)
-                {
-                    str = str + "'" + tablaDeEstados.ElementAt(i).Name_Char + "',";
-                }
-            }
-            if (str.EndsWith(","))
-            {
-                str = str.Substring(0, str.Length - 1);
-            }
-            return str + "]";
-
-        }
-
-        //IMPRIME LA DESCRIPCION DEL AFD
-    /*    public void ImprimeAFD()
-        {
-            Console.WriteLine("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-            for (int i = 0; i < DescripcionDelAFD.Count; i++)
-            {
-                System.Windows.Forms.MessageBox.Show(DescripcionDelAFD.ElementAt(i).Description());
-                Console.WriteLine(DescripcionDelAFD.ElementAt(i).Description_graphviz());
-            }
-
-        }*/
 
         public void graficar(string nombre)
         {
@@ -271,7 +243,7 @@ namespace Proyecto1_201701187
             {
                 texto += "\n";
                 texto += "\t";
-                texto += DescripcionDelAFD.ElementAt(i).Description_graphviz();
+                texto += DescripcionDelAFD.ElementAt(i).Description_graphviz(i);
             }
 
             for (int i = 0; i < tablaDeEstados.Count; i++)
