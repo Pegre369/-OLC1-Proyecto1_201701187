@@ -36,8 +36,6 @@
             this.loadThompsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveTokenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pDGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.entrada = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.AFN = new System.Windows.Forms.ComboBox();
@@ -110,27 +108,13 @@
             this.saveTokenToolStripMenuItem.Name = "saveTokenToolStripMenuItem";
             this.saveTokenToolStripMenuItem.Size = new System.Drawing.Size(209, 28);
             this.saveTokenToolStripMenuItem.Text = "Save Token";
+            this.saveTokenToolStripMenuItem.Click += new System.EventHandler(this.saveTokenToolStripMenuItem_Click);
             // 
             // saveErroresToolStripMenuItem
             // 
-            this.saveErroresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pDGToolStripMenuItem,
-            this.xMLToolStripMenuItem});
             this.saveErroresToolStripMenuItem.Name = "saveErroresToolStripMenuItem";
             this.saveErroresToolStripMenuItem.Size = new System.Drawing.Size(209, 28);
             this.saveErroresToolStripMenuItem.Text = "Save Errores";
-            // 
-            // pDGToolStripMenuItem
-            // 
-            this.pDGToolStripMenuItem.Name = "pDGToolStripMenuItem";
-            this.pDGToolStripMenuItem.Size = new System.Drawing.Size(122, 28);
-            this.pDGToolStripMenuItem.Text = "PDF";
-            // 
-            // xMLToolStripMenuItem
-            // 
-            this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(122, 28);
-            this.xMLToolStripMenuItem.Text = "XML";
             // 
             // entrada
             // 
@@ -268,8 +252,6 @@
         private System.Windows.Forms.ToolStripMenuItem loadThompsonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveTokenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveErroresToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pDGToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
         private System.Windows.Forms.RichTextBox entrada;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox AFN;

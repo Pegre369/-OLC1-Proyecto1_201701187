@@ -15,6 +15,7 @@ namespace Proyecto1_201701187
         public static List<Lista_ER> Caracteres = new List<Lista_ER>();
         public static List<Thompson> guardado = new List<Thompson>();
         public static int index=1;
+        public static bool bandera = false;
 
         public void ER(List<Tokens> Aceptacion)
         {
@@ -25,43 +26,59 @@ namespace Proyecto1_201701187
             for (int i = 0; i < ListaTokens.Count; i++)
             {
 
-                //Verificar si es >
-                if (ListaTokens[i].getId() == 36)
+                //Verificar si es ID
+                if (ListaTokens[i].getId() == 5)
                 {
-                    //Ciclo para validar todo lo que esta despues del > y antes del punto y coma
-                    while (ListaTokens[i].getId() != 31)
+                    cadena = ListaTokens[i].getLexema();
+                    i++;
+                    // Verifico si es -
+                    if (ListaTokens[i].getId() == 16)
                     {
-                        //Verificar si es el punto de concatenacion
-                        if (ListaTokens[i].getId() == 17)
+                        cadena += ListaTokens[i].getLexema();
+                        i++;
+                        //Verificar si es >
+                        if (ListaTokens[i].getId() == 36)
+                    {
+                             cadena += ListaTokens[i].getLexema();
+                            i++;
+                        //Ciclo para validar todo lo que esta despues del > y antes del punto y coma
+                        while (ListaTokens[i].getId() != 31)
                         {
-                            if (cadena == null)
+                            //Verificar si es el punto de concatenacion
+                            if (ListaTokens[i].getId() == 17)
                             {
-
-                                cadena = ListaTokens[i].getLexema();
-                                i++;
-                                //Valido todo lo que esta antes del punto y coma
-
-                                while (ListaTokens[i].getId() != 31)
+                                if (cadena != null)
                                 {
-                                    cadena = cadena + ListaTokens[i].getLexema();
+
+                                    cadena += ListaTokens[i].getLexema();
                                     i++;
+                                    //Valido todo lo que esta antes del punto y coma
+
+                                    while (ListaTokens[i].getId() != 31)
+                                    {
+                                        cadena = cadena + ListaTokens[i].getLexema();
+                                        i++;
+                                    }
+
+                                    ERs.Add(cadena);
+                                    cadena = null;
+
                                 }
 
-                                ERs.Add(cadena);
-                                cadena = null;
 
                             }
+                            else
+                            {
+                                cadena = null;
+                                i++;
+                            }
 
-
-                        }else
-                        {
-                            i++;
                         }
 
+
                     }
-
-
                 }
+             } 
 
             }
 
@@ -87,7 +104,7 @@ namespace Proyecto1_201701187
 
         public void Separacion()
         {
-
+            string nombreER = "";
             String cc = "";
             String er = "";
             char caracter = ' ';
@@ -99,9 +116,28 @@ namespace Proyecto1_201701187
                 
 
                 er = ERs[i];
-
+                for (int name = 0; name < er.Length; name++)
+                {
+                    caracter = er[name];
+                    if (Char.IsLetter(caracter))
+                    {
+                        nombreER += caracter;
+                    }
+                    else if (Char.IsDigit(caracter))
+                    {
+                        nombreER += caracter;
+                    }
+                    else if (caracter == (char)95)
+                    {
+                        nombreER += caracter;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
                 //Aqui separo la ER de caracter por caracter y lo guardo en una linkedlist de caracteres
-                for (int j = 0; j < er.Length; j++)
+                for (int j = 3; j < er.Length; j++)
                 {
 
                     caracter = er[j];
@@ -149,7 +185,6 @@ namespace Proyecto1_201701187
                             {
 
                             }
-
                             break;
 
                         case 1:
@@ -193,12 +228,13 @@ namespace Proyecto1_201701187
                             }
 
                             break;
+                        
 
                     }
 
                 }
 
-               /* //Verificacion si separa la Expresion Regular  es correcta 
+              /*  //Verificacion si separa la Expresion Regular  es correcta 
                    for (int j = 0; j < Caracteres.Count; j++) {
 
                       if (Caracteres[j] != null) {
@@ -207,11 +243,11 @@ namespace Proyecto1_201701187
 
                       }
                   }
-
+                Console.WriteLine(nombreER);
                   break;*/
 
 
-                Thompson thom = new Thompson(Caracteres, "AFN" + index, "AFD"+index, "Tabla_Transicion"+index);
+                Thompson thom = new Thompson(Caracteres,nombreER ,"AFN" + index, "AFD"+index, "Tabla_Transicion"+index);
                 Form1 mandar = new Form1();
                 mandar.traer_nombre("AFN" + index, "AFD" + index, "Tabla_Transicion" + index);
                 guardado.Add(thom);

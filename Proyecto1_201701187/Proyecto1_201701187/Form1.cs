@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Proyecto1_201701187
 {
@@ -163,6 +164,48 @@ namespace Proyecto1_201701187
             posiciones = Tabla.SelectedIndex + 1;
             Form2 abrir = new Form2("D:\\Casca\\Documents\\Compi 1\\-OLC1-Proyecto1_201701187\\Proyecto1_201701187\\Proyecto1_201701187\\bin\\Debug\\" + "Tabla_Transicion" + posiciones + ".png");
             abrir.Show();
+        }
+
+        private void saveTokenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlElement root = doc.CreateElement("Lista_Tokens");
+            doc.AppendChild(root);
+
+            for (int i = 0; i < Lista_Aceptacion.Count; i++)
+            {
+
+                XmlElement title = doc.CreateElement("Token");
+                root.AppendChild(title);
+
+                XmlElement type = doc.CreateElement("Tipo");
+                type.AppendChild(doc.CreateTextNode(Lista_Aceptacion[i].getDescripcion()));
+                title.AppendChild(type);
+
+                XmlElement lexema = doc.CreateElement("Lexema");
+                lexema.AppendChild(doc.CreateTextNode(Lista_Aceptacion[i].getLexema()));
+                title.AppendChild(lexema);
+
+                XmlElement id = doc.CreateElement("Id");
+                id.AppendChild(doc.CreateTextNode(Lista_Aceptacion[i].getId().ToString()));
+                title.AppendChild(id);
+
+                XmlElement fila = doc.CreateElement("Fila");
+                fila.AppendChild(doc.CreateTextNode(Lista_Aceptacion[i].getFila().ToString()));
+                title.AppendChild(fila);
+
+
+                XmlElement columna = doc.CreateElement("Columna");
+                columna.AppendChild(doc.CreateTextNode(Lista_Aceptacion[i].getFila().ToString()));
+                title.AppendChild(columna);
+            
+
+
+            }
+
+            doc.Save("D:\\Casca\\Documents\\Compi 1\\-OLC1-Proyecto1_201701187\\Proyecto1_201701187\\Proyecto1_201701187\\bin\\Debug\\Reporte_Token.xml");
+
+
         }
     }
 }
