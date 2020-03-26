@@ -34,7 +34,7 @@ namespace Proyecto1_201701187
             grafo.Append(contents);
             Console.WriteLine(contents);
             this.generardot(name);
-            abrir();
+          //  abrir();
 
         }
 

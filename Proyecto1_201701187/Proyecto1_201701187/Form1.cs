@@ -19,7 +19,10 @@ namespace Proyecto1_201701187
         public int contador_guardado;
         private static List<Tokens> Lista_Aceptacion = new List<Tokens>();
         private static List<Tokens> Lista_Error = new List<Tokens>();
-        
+        public static List<string> nombresAFN = new List<string>();
+        public static List<string> nombresAFD = new List<string>();
+        public static List<string> nombresTabla = new List<string>();
+
 
         public Form1()
         {
@@ -79,12 +82,6 @@ namespace Proyecto1_201701187
             Scanner iniciar = new Scanner();
             iniciar.scanner(entrada.Text);
 
-            /*  for (int i = 0; i < Lista_Aceptacion.Count; i++)
-              {
-                  Console.WriteLine(Lista_Aceptacion[i].getLexema());
-              }*/
-
-
             if (Lista_Error.Count!=0)
             {
                 Console.WriteLine("Existe error");
@@ -93,7 +90,7 @@ namespace Proyecto1_201701187
                 Console.WriteLine("Todo bien, todo correcto");
                 Extraer_ER mandar = new Extraer_ER();
                 mandar.ER(Lista_Aceptacion);
-
+                agregar();
             }
 
             
@@ -105,6 +102,67 @@ namespace Proyecto1_201701187
             Lista_Aceptacion = lista_aceptada;
             Lista_Error = lista_error;
         }
-        
+
+        public void traer_nombre(string AFN, String AFD, string Tabla)
+        {
+            nombresAFN.Add(AFN);
+            nombresAFD.Add(AFD);
+            nombresTabla.Add(Tabla);
+        }
+
+        public void agregar()
+        {
+            for (int i = 0; i < nombresAFN.Count; i++)
+            {
+                AFN.Items.Add(nombresAFN[i]);
+                
+            }
+
+            for (int i = 0; i < nombresAFD.Count; i++)
+            {
+                AFD.Items.Add(nombresAFD[i]);
+
+            }
+
+            for (int i = 0; i < nombresTabla.Count; i++)
+            {
+                Tabla.Items.Add(nombresTabla[i]);
+
+            }
+
+        }
+
+        private void AFN_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int posiciones;
+
+            posiciones = AFN.SelectedIndex+1;
+            Form2 abrir = new Form2("D:\\Casca\\Documents\\Compi 1\\-OLC1-Proyecto1_201701187\\Proyecto1_201701187\\Proyecto1_201701187\\bin\\Debug\\" + "AFN" + posiciones + ".png");
+            abrir.Show();
+
+        }
+
+        private void AFD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int posiciones;
+
+            posiciones = AFD.SelectedIndex + 1;
+            Form2 abrir = new Form2("D:\\Casca\\Documents\\Compi 1\\-OLC1-Proyecto1_201701187\\Proyecto1_201701187\\Proyecto1_201701187\\bin\\Debug\\" + "AFD" + posiciones + ".png");
+            abrir.Show();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Tabla_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int posiciones;
+
+            posiciones = Tabla.SelectedIndex + 1;
+            Form2 abrir = new Form2("D:\\Casca\\Documents\\Compi 1\\-OLC1-Proyecto1_201701187\\Proyecto1_201701187\\Proyecto1_201701187\\bin\\Debug\\" + "Tabla_Transicion" + posiciones + ".png");
+            abrir.Show();
+        }
     }
 }
