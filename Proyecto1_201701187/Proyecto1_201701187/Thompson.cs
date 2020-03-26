@@ -10,36 +10,22 @@ namespace Proyecto1_201701187
     {
         int i = 0;
         List<Lista_ER> er;
-        String name_file; 
         Automata root;
         Sub_Conjuntos deterministas;
-        public Thompson(List<Lista_ER>er, String name)
+        public Thompson(List<Lista_ER>er, String nameAFN, String nameAFD, String nameTable)
         {
 
             this.er = er;
-            this.name_file = name;
             Root = create();
             Root.creation_alphabet(er);
-            Root.graph(Name_file);
+            Root.graph(nameAFN);
 
-            Sub_Conjuntos s = new Sub_Conjuntos(Root);
+            Sub_Conjuntos s = new Sub_Conjuntos(Root, nameAFD, nameTable);
             this.Deterministas = s;
 
         }
 
-        public string Name_file
-        {
-            get
-            {
-                return name_file;
-            }
-
-            set
-            {
-                name_file = value;
-            }
-        }
-
+        
         public Automata Root
         {
             get
@@ -244,13 +230,11 @@ namespace Proyecto1_201701187
             List<Estado> anteriorFin = AFN1.Acceptance;
             List<Estado> anteriorFin2 = AFN2.Acceptance;
 
-            // agregar transiciones desde el nuevo estado inicial
             New_begin.Transitions.Add(new Trancision(New_begin, anteriorInicio, new Lista_ER("ε", "Epsilon")));
 
-            // agregar transiciones desde el anterior AFN 1 al estado final
             for (int k = 0; k < anteriorFin.Count; k++)
                 anteriorFin.ElementAt(k).Transitions.Add(new Trancision(anteriorFin.ElementAt(k), New_end, new Lista_ER("ε", "Epsilon")));
-            // agregar transiciones desde el anterior AFN 2 al estado final
+           
             for (int k = 0; k < anteriorFin.Count; k++)
                 anteriorFin2.ElementAt(k).Transitions.Add(new Trancision(anteriorFin2.ElementAt(k), New_end, new Lista_ER("ε", "Epsilon")));
 

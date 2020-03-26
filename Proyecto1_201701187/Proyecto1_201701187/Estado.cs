@@ -55,6 +55,7 @@ namespace Proyecto1_201701187
             }
         }
         
+        //AFD
         public string Name_Char
         {
             get

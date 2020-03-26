@@ -20,10 +20,6 @@ namespace Proyecto1_201701187
             symbol = sim;
 
         }
-        public String Description()
-        {
-            return "['" + begin.Name_Char + "' , '" + symbol.getEtiqueta() + "' , '" + final.Name_Char + "']";
-        }
 
         public String Description_graphviz(int i)
         {

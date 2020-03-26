@@ -8,262 +8,390 @@ namespace Proyecto1_201701187
 {
     public class Sub_Conjuntos
     {
-        List<Lista_ER> alfabeto;
-        int inicial;
-        Estado afdInicial;
-        //PILAS Y ARREGLOS PARA EL MANEJO DE DATOS
-        List<Trancision> estados = new List<Trancision>();
-        Stack<Trancision> estados_pendientes = new Stack<Trancision>();
-        List<Estado> tablaDeEstados = new List<Estado>();
-        Queue<Estado> AFDpendientes = new Queue<Estado>();
-        public List<AFD> DescripcionDelAFD = new List<AFD>();
-        Automata automata;
+        List<Lista_ER> alfabet;
+        int initial;
+        Estado afdInitial;
+        List<Trancision> states = new List<Trancision>();
+        Stack<Trancision> pending_states = new Stack<Trancision>();
+        List<Estado> Table_States = new List<Estado>();
+        Queue<Estado> AFD_pendent = new Queue<Estado>();
+        public List<AFD> Description_AFD = new List<AFD>();
+        public string [,] table_matriz;
+        public int fila;
+        public int columna;
+        Automata automaton;
 
-        public Sub_Conjuntos(Automata a)
+        public Sub_Conjuntos(Automata a, string name, string nametabla)
         {
-            alfabeto = a.Alfabet;
-          //  a.obtenerAcpetacion();
-            AdaptaEstados(a);
-            inicial = a.Initial.Identifier;
-            afdInicial = a.Initial;
-            automata = a;
-            Calculo();
-            graficar("a");
+            alfabet = a.Alfabet;
+            Adaptation_States(a);
+            initial = a.Initial.Identifier;
+            afdInitial = a.Initial;
+            automaton = a;
+            Calculation();
+            graph(name);
+            table();
+            ShowAlfabet(alfabet,nametabla);
+            
         }
 
-        private void AdaptaEstados(Automata a)
+        private void Adaptation_States(Automata a)
         {
-            foreach (Estado e in a.States)
+            foreach (Estado sta in a.States)
             {
-                List<Trancision> transiciones = e.Transitions;
-                foreach (Trancision t in transiciones)
+                List<Trancision> transition = sta.Transitions;
+                foreach (Trancision trans in transition)
                 {
-                    estados.Add(t);
+                    states.Add(trans);
                 }
 
             }
         }
 
-        private void Calculo()
+        private void Calculation()
         {
-            //CERRADURA EPSILON AL ESTADO INICIAL
-            Cerradura(null, inicial, new Lista_ER( "ε", "Epsilon"), 1);
 
-            //CALCULAMOS LOS DISTINTOS ESTADOS
-            while (AFDpendientes.Count > 0)
+            Clench(null, initial, new Lista_ER( "ε", "Epsilon"), 1);
+
+            while (AFD_pendent.Count > 0)
             {
-                for (int i = 0; i < alfabeto.Count; i++)
+                for (int i = 0; i < alfabet.Count; i++)
                 {
-                    Estado estadotmp = Mover(AFDpendientes.Peek(), alfabeto.ElementAt(i));
+                    Estado Temporary_state = Move(AFD_pendent.Peek(), alfabet.ElementAt(i));
 
-                    //SE VERIFICA QUE EL RESULTADO DE MOVER DIERA UN ESTADO VALIDO (NO POZO)
-                    if (estadotmp.key.Count > 0)
+                    if (Temporary_state.key.Count > 0)
                     {
-                        //VERIFICA SI EL ESTADO YA EXISTE
-                        if (EstadoPrevio(estadotmp) == false)
+                        if (Previous_State(Temporary_state) == false)
                         {
                             Estado result = null;
 
-                            //SI LA LLAVE DEL ESTADO NO EXISTE PREVIAMENTE
-                            for (int j = 0; j < estadotmp.inserted.Count; j++)
+                            for (int j = 0; j < Temporary_state.inserted.Count; j++)
                             {
-                                result = Cerradura(estadotmp, estadotmp.inserted.ElementAt(j), new Lista_ER("ε", "Epsilon"), estadotmp.Identifier);
+                                result = Clench(Temporary_state, Temporary_state.inserted.ElementAt(j), new Lista_ER("ε", "Epsilon"), Temporary_state.Identifier);
                             }
                             if (result != null)
                             {
-                                //SE ASIGNA UN NOMBRE UNICO
-                                result.Identifier = tablaDeEstados.Count + 1;
-
-                                //SE AGREGA EL ESTADO A LA TABLA
-                                tablaDeEstados.Add(result);
-
-                                //SE GUARDA SI EL ESTADO ES FINAL O NO
-                                esFinal(result);
-
-                                //SE AGREGA EL ESTADO A LA DESCRIPCION DE ESTADOS
-                                DescripcionDelAFD.Add(new AFD(AFDpendientes.Peek(), result, alfabeto.ElementAt(i)));
+                               
+                                result.Identifier = Table_States.Count + 1;
+                                Table_States.Add(result);
+                                Is_Final(result);
+                                Description_AFD.Add(new AFD(AFD_pendent.Peek(), result, alfabet.ElementAt(i)));
                             }
                         }
                         else
                         {
-                            //SI LA LLAVE DEL ESTADO YA SE HABIA CALCULADO EN UN ESTADO PREVIO
-                            DescripcionDelAFD.Add(new AFD(AFDpendientes.Peek(), NombrePrevio(estadotmp), alfabeto.ElementAt(i)));
+                            Description_AFD.Add(new AFD(AFD_pendent.Peek(), Previous_Name(Temporary_state), alfabet.ElementAt(i)));
                         }
                     }
                 }
-                AFDpendientes.Dequeue();
+                AFD_pendent.Dequeue();
             }
         }
 
-        private Estado NombrePrevio(Estado estadoactual)
+        private Estado Previous_Name(Estado Actual_State)
         {
-            //REVISAR IMPLEMENTACCION
-            for (int i = 0; i < tablaDeEstados.Count; i++)
+        for (int i = 0; i < Table_States.Count; i++)
             {
-                if (Igual(tablaDeEstados.ElementAt(i).key, estadoactual.key))
+                if (Same(Table_States.ElementAt(i).key, Actual_State.key))
                 {
-                    return tablaDeEstados.ElementAt(i);
+                    return Table_States.ElementAt(i);
                 }
             }
             return null;
         }
         
-        private bool EstadoPrevio(Estado estadoactual)
+        private bool Previous_State(Estado Actual_State)
         {
-            bool existe = false;
-            for (int i = 0; i < tablaDeEstados.Count; i++)
+            bool exist = false;
+            for (int i = 0; i < Table_States.Count; i++)
             {
-                if (Igual(tablaDeEstados.ElementAt(i).key, estadoactual.key))
+                if (Same(Table_States.ElementAt(i).key, Actual_State.key))
                 {
-                    existe = true;
+                    exist = true;
                     break;
                 }
             }
-            return existe;
+            return exist;
         }
 
-        private bool Igual(List<int> a, List<int> b)
+        private bool Same(List<int> x, List<int> y)
         {
-            bool res = false;
+            bool result = false;
             int sum = 0;
-            if (a.Count == b.Count)
+            if (x.Count == y.Count)
             {
-                for (int i = 0; i < a.Count; i++)
+                for (int i = 0; i < x.Count; i++)
                 {
-                    if (a.ElementAt(i) == b.ElementAt(i))
+                    if (x.ElementAt(i) == y.ElementAt(i))
                     {
                         sum++;
                     }
                 }
-                if (sum == a.Count)
+                if (sum ==y.Count)
                 {
-                    res = true;
+                    result = true;
                 }
             }
-            return res;
+            return result;
         }
 
-        private Estado Mover(Estado estado, Lista_ER simbolo)
+        private Estado Move(Estado state, Lista_ER symbol)
         {
-            Estado temp = new Estado(tablaDeEstados.Count + 1);
-            for (int i = 0; i < estado.inserted.Count; i++)
+            Estado temporary = new Estado(Table_States.Count + 1);
+            for (int i = 0; i < state.inserted.Count; i++)
             {
-                for (int j = 0; j < estados.Count; j++)
+                for (int j = 0; j < states.Count; j++)
                 {
-                    if (estado.inserted.ElementAt(i) == estados.ElementAt(j).Begin.Identifier)
+                    if (state.inserted.ElementAt(i) == states.ElementAt(j).Begin.Identifier)
                     {
-                        if (estados.ElementAt(j).Symbol.getDescripcion().Equals(simbolo.getDescripcion()) && estados.ElementAt(j).Symbol.getEtiqueta().Equals(simbolo.getEtiqueta()))
+                        if (states.ElementAt(j).Symbol.getDescripcion().Equals(symbol.getDescripcion()) && states.ElementAt(j).Symbol.getEtiqueta().Equals(symbol.getEtiqueta()))
                         {
-                            if (!temp.inserted.Contains(estados.ElementAt(j).End.Identifier))
+                            if (!temporary.inserted.Contains(states.ElementAt(j).End.Identifier))
                             {
-                                temp.inserted.Add(estados.ElementAt(j).End.Identifier);
-                                temp.key.Add(estados.ElementAt(j).End.Identifier);
+                                temporary.inserted.Add(states.ElementAt(j).End.Identifier);
+                                temporary.key.Add(states.ElementAt(j).End.Identifier);
                             }
                         }
                     }
                 }
             }
-            temp.key.Sort();
-            return temp;
+            temporary.key.Sort();
+            return temporary;
         }
 
-        private void esFinal(Estado estado)
+        private void Is_Final(Estado State)
         {
-            estado.final = false;
-            for (int i = 0; i < estado.inserted.Count; i++)
+            State.final = false;
+            for (int i = 0; i < State.inserted.Count; i++)
             {
-                if (automata.Acceptance.Any(u => u.Identifier == (estado.inserted.ElementAt(i))))
+                if (automaton.Acceptance.Any(u => u.Identifier == (State.inserted.ElementAt(i))))
                 {
-                    estado.final = true;
+                    State.final = true;
                 }
             }
         }
 
-        private Estado Cerradura(Estado estadoactual, int inicio, Lista_ER simbolo, int Nombre)
+        private Estado Clench(Estado Actual_state, int begin, Lista_ER symbol, int Name)
         {
             Estado estado;
-            if (estadoactual == null)
+            if (Actual_state == null)
             {
-                //CREAR UN NUEVO ESTADO AFD
-                estado = new Estado(Nombre);
-                estado.inserted.Add(inicio);
-                estado.key.Add(inicio);
-                tablaDeEstados.Add(estado);
+                estado = new Estado(Name);
+                estado.inserted.Add(begin);
+                estado.key.Add(begin);
+                Table_States.Add(estado);
             }
             else
             {
-                estado = estadoactual;
-                if (!estado.inserted.Contains(inicio))
+                estado = Actual_state;
+                if (!estado.inserted.Contains(begin))
                 {
-                    estado.inserted.Add(inicio);
+                    estado.inserted.Add(begin);
                 }
             }
 
-            for (int i = 0; i < estados.Count; i++)
+            for (int i = 0; i < states.Count; i++)
             {
-                if (estados.ElementAt(i).Begin.Identifier == inicio)
+                if (states.ElementAt(i).Begin.Identifier == begin)
                 {
                     //Quizas lleve otra condicion
-                    if (estados.ElementAt(i).Symbol.getDescripcion().Equals(simbolo.getDescripcion()) && estados.ElementAt(i).Symbol.getEtiqueta().Equals(simbolo.getEtiqueta()))
+                    if (states.ElementAt(i).Symbol.getDescripcion().Equals(symbol.getDescripcion()) && states.ElementAt(i).Symbol.getEtiqueta().Equals(symbol.getEtiqueta()))
                     {
-                        if (!estados_pendientes.Contains(estados.ElementAt(i)))
+                        if (!pending_states.Contains(states.ElementAt(i)))
                         {
-                            estados_pendientes.Push(estados.ElementAt(i));
+                            pending_states.Push(states.ElementAt(i));
                         }
                     }
                 }
             }
-            while (estados_pendientes.Count > 0)
+            while (pending_states.Count > 0)
             {
-                Cerradura(estado, estados_pendientes.Pop().End.Identifier, simbolo, estado.Identifier);
+                Clench(estado, pending_states.Pop().End.Identifier, symbol, estado.Identifier);
             }
-            if (!AFDpendientes.Contains(estado))
+            if (!AFD_pendent.Contains(estado))
             {
-                AFDpendientes.Enqueue(estado);
+                AFD_pendent.Enqueue(estado);
             }
             return estado;
         }
 
-
-
-        public void graficar(string nombre)
+        public void graph(string name)
         {
-            nombre = nombre + "AFD";
-            string texto = "digraph " + nombre + " {\n";
-            texto += "\trankdir=LR;" + "\n";
+            
+            string text = "digraph " + name + " {\n";
+            text += "\trankdir=LR;" + "\n";
 
-            texto += "\tgraph [label=\"" + nombre + "\", labelloc=t, fontsize=20]; \n";
-            texto += "\tnode [style = filled,color = mediumseagreen];";
-            texto += "\tnode [shape=point];inicio;";
-            texto += "\n";
-            texto += "\tnode [shape=circle];" + "\n";
-            texto += "\tnode [color=midnightblue,fontcolor=white];\n" + "	edge [color=red];" + "\n";
+            text += "\tgraph [label=\"" + name + "\", labelloc=t, fontsize=18]; \n";
+            text += "\tnode [style = filled];";
+            text += "\tnode [shape=point];inicio;";
+            text += "\n";
+            text += "\tnode [shape=circle];" + "\n";
            
-            for (int i = 0; i < DescripcionDelAFD.Count; i++)
+            for (int i = 0; i < Description_AFD.Count; i++)
             {
-                texto += "\n";
-                texto += "\t";
-                texto += DescripcionDelAFD.ElementAt(i).Description_graphviz(i);
+                text += "\n";
+                text += "\t";
+                text += Description_AFD.ElementAt(i).Description_graphviz(i);
             }
 
-            for (int i = 0; i < tablaDeEstados.Count; i++)
+            for (int i = 0; i < Table_States.Count; i++)
             {
-                if (tablaDeEstados.ElementAt(i).final == true)
+                if (Table_States.ElementAt(i).final == true)
                 {
-                    texto += "\n";
-                    texto += "\t";
-                    texto += tablaDeEstados.ElementAt(i).Name_Char + "[shape=doublecircle];";
+                    text += "\n";
+                    text += "\t";
+                    text += Table_States.ElementAt(i).Name_Char + "[shape=doublecircle];";
                 }
             }
 
-            texto += "\n }";
+            text += "\n }";
             Graficar_AFN g = new Graficar_AFN();
-            g.graficar(texto, nombre);
+            g.graficar(text, name);
 
         }
 
+        public void ShowAlfabet(List<Lista_ER> alfabet, string name)
+        {
+            string text = "digraph H {\n" +
+            "aHtmlTable [\n shape = plaintext\n" +
+            "label =<\n" +
+            "<table border = '0' cellborder = '1' color = 'blue' cellspacing = '0'>\n";
+             
+             for (int f= 0; f<fila; f++)
+             {
+                text += "<tr>";
+                for (int c = 0; c < columna; c++)
+                {
+                    text += "<td>" + table_matriz[f,c] + "</td>";
+                }
+                text += "</tr>\n";
+            }
+           
+            text += "</table>\n" +
+                 ">];\n"+
+                 "}";
 
+             //Console.WriteLine(text);
+             Graficar_AFN g = new Graficar_AFN();
+             g.graficar(text, name);
+
+            
+
+        }
+
+        public void table()
+        {
+          
+            int apuntador = 0;
+
+            columna = alfabet.Count + 1 ;
+            fila = Table_States.Count+1;
+
+            table_matriz = new string[fila,columna];
+
+            table_matriz[0, 0] = " ";
+
+            for (int i = 1; i <columna ; i++)
+            {
+                table_matriz[0, i] = alfabet.ElementAt(apuntador).getEtiqueta();
+                apuntador++;
+            }
+
+            apuntador = 0;
+
+            for (int i = 1; i<fila; i++)
+            {
+                table_matriz[i, 0] = Table_States.ElementAt(apuntador).Name_Char;
+                apuntador++;
+            }
+
+            int titu=0;
+            
+
+            for (int i = 0; i < columna; i++)
+            {
+                if (table_matriz[0,i].Equals(Description_AFD.ElementAt(titu).symbol.getEtiqueta()))
+                {
+                    titu = 0;
+
+                    for (int j = 0; j < fila; j++)
+                    {
+                        if (titu == Description_AFD.Count)
+                        {
+                            titu = 0;
+                            break;
+                        }else
+                        {
+                            if (table_matriz[0, i].Equals(Description_AFD.ElementAt(titu).symbol.getEtiqueta()))
+                            {
+                                if (table_matriz[j, 0].Equals(Description_AFD.ElementAt(titu).begin.Name_Char))
+                                {
+                                    Console.WriteLine("si jalo");
+                                    table_matriz[j, i] = Description_AFD.ElementAt(titu).final.Name_Char;
+                                    titu++;
+                                }
+                                else
+                                {
+                                    if (table_matriz[j, 0] == " ")
+                                    {
+
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (table_matriz[j, 0] == " ")
+                                {
+
+                                }
+                                else
+                                {
+                                    titu++;
+                                    j--;
+                                }
+                            }
+                        }
+                        
+                    }
+
+                    titu = 0;
+
+                 } else
+                {
+                    if (table_matriz[0, i] == " ")
+                    {
+
+                    }
+                    else
+                    {
+                        titu++;
+                        i--;
+                    }
+                }
+                
+
+
+              }
+
+
+            for (int i = 0; i < fila; i++)
+            {
+                for (int j = 0; j < columna; j++)
+                {
+                    Console.Write(table_matriz[i,j]);
+                }
+                Console.WriteLine();
+            }
+
+
+            }
+
+
+
+        }
+
+        
     }
 
-}
+
 

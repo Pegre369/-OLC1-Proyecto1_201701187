@@ -211,7 +211,7 @@ namespace Proyecto1_201701187
                   break;*/
 
 
-                Thompson thom = new Thompson(Caracteres, "AFN" + index);
+                Thompson thom = new Thompson(Caracteres, "AFN" + index, "AFD"+index, "Tabla_Transicion"+index);
                 guardado.Add(thom);
                 index++;
                 Caracteres.Clear();
