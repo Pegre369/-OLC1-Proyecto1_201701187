@@ -241,6 +241,42 @@ namespace Proyecto1_201701187
 
         }
 
-      
+        private void saveErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlElement root = doc.CreateElement("Lista_Errores");
+            doc.AppendChild(root);
+
+            for (int i = 0; i < Lista_Error.Count; i++)
+            {
+
+                XmlElement title = doc.CreateElement("Error");
+                root.AppendChild(title);
+
+                XmlElement type = doc.CreateElement("Tipo");
+                type.AppendChild(doc.CreateTextNode(Lista_Error[i].getDescripcion()));
+                title.AppendChild(type);
+
+                XmlElement lexema = doc.CreateElement("Lexema");
+                lexema.AppendChild(doc.CreateTextNode(Lista_Error[i].getLexema()));
+                title.AppendChild(lexema);
+
+                XmlElement fila = doc.CreateElement("Fila");
+                fila.AppendChild(doc.CreateTextNode(Lista_Error[i].getFila().ToString()));
+                title.AppendChild(fila);
+
+
+                XmlElement columna = doc.CreateElement("Columna");
+                columna.AppendChild(doc.CreateTextNode(Lista_Error[i].getFila().ToString()));
+                title.AppendChild(columna);
+
+
+
+            }
+
+            doc.Save("D:\\Casca\\Documents\\Compi 1\\-OLC1-Proyecto1_201701187\\Proyecto1_201701187\\Proyecto1_201701187\\bin\\Debug\\Reporte_Errores.xml");
+
+
+        }
     }
 }

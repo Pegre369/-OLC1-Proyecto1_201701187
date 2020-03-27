@@ -115,8 +115,9 @@
             // saveErroresToolStripMenuItem
             // 
             this.saveErroresToolStripMenuItem.Name = "saveErroresToolStripMenuItem";
-            this.saveErroresToolStripMenuItem.Size = new System.Drawing.Size(209, 28);
+            this.saveErroresToolStripMenuItem.Size = new System.Drawing.Size(217, 28);
             this.saveErroresToolStripMenuItem.Text = "Save Errores";
+            this.saveErroresToolStripMenuItem.Click += new System.EventHandler(this.saveErroresToolStripMenuItem_Click);
             // 
             // entrada
             // 
