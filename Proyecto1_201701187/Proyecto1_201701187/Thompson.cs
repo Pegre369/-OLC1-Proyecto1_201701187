@@ -13,7 +13,7 @@ namespace Proyecto1_201701187
         Automata root;
         Sub_Conjuntos deterministas;
         String nameEr;
-
+        string namefile;
         public Thompson(List<Lista_ER>er, String nombreer, String nameAFN, String nameAFD, String nameTable)
         {
 
@@ -22,6 +22,7 @@ namespace Proyecto1_201701187
             Root.creation_alphabet(er);
             Root.graph(nameAFN);
             this.NameEr = nombreer;
+            this.Namefile = nameAFN;
             Sub_Conjuntos s = new Sub_Conjuntos(Root, nameAFD, nameTable);
             this.Deterministas = s;
 
@@ -64,6 +65,19 @@ namespace Proyecto1_201701187
             set
             {
                 nameEr = value;
+            }
+        }
+
+        public string Namefile
+        {
+            get
+            {
+                return namefile;
+            }
+
+            set
+            {
+                namefile = value;
             }
         }
 

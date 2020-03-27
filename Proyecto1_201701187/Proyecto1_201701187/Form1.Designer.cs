@@ -46,6 +46,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.analyzeLexemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,7 +92,8 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadThompsonToolStripMenuItem,
             this.saveTokenToolStripMenuItem,
-            this.saveErroresToolStripMenuItem});
+            this.saveErroresToolStripMenuItem,
+            this.analyzeLexemeToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(67, 28);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -215,6 +217,13 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Console";
             // 
+            // analyzeLexemeToolStripMenuItem
+            // 
+            this.analyzeLexemeToolStripMenuItem.Name = "analyzeLexemeToolStripMenuItem";
+            this.analyzeLexemeToolStripMenuItem.Size = new System.Drawing.Size(217, 28);
+            this.analyzeLexemeToolStripMenuItem.Text = "Analyze Lexeme";
+            this.analyzeLexemeToolStripMenuItem.Click += new System.EventHandler(this.analyzeLexemeToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -262,6 +271,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem analyzeLexemeToolStripMenuItem;
     }
 }
 

@@ -249,8 +249,8 @@ namespace Proyecto1_201701187
 
                 Thompson thom = new Thompson(Caracteres,nombreER ,"AFN" + index, "AFD"+index, "Tabla_Transicion"+index);
                 Form1 mandar = new Form1();
-                mandar.traer_nombre("AFN" + index, "AFD" + index, "Tabla_Transicion" + index);
                 guardado.Add(thom);
+                mandar.traer_nombre("AFN" + index, "AFD" + index, "Tabla_Transicion" + index,guardado);
                 index++;
                 Caracteres.Clear();
             }

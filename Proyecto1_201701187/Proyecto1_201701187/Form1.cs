@@ -23,8 +23,10 @@ namespace Proyecto1_201701187
         public static List<string> nombresAFN = new List<string>();
         public static List<string> nombresAFD = new List<string>();
         public static List<string> nombresTabla = new List<string>();
-
-
+        public static List<Thompson> listathompsons = new List<Thompson>();
+        public static List<Lexema> lista_lexema = new List<Lexema>();
+        public static Thompson selected;
+        public string capturar = null;
         public Form1()
         {
             InitializeComponent();
@@ -91,6 +93,8 @@ namespace Proyecto1_201701187
                 Console.WriteLine("Todo bien, todo correcto");
                 Extraer_ER mandar = new Extraer_ER();
                 mandar.ER(Lista_Aceptacion);
+                Extraer_Lexema mandar2 = new Extraer_Lexema();
+                mandar2.ER(Lista_Aceptacion);
                 agregar();
             }
 
@@ -104,11 +108,12 @@ namespace Proyecto1_201701187
             Lista_Error = lista_error;
         }
 
-        public void traer_nombre(string AFN, String AFD, string Tabla)
+        public void traer_nombre(string AFN, String AFD, string Tabla, List<Thompson>Lista)
         {
             nombresAFN.Add(AFN);
             nombresAFD.Add(AFD);
             nombresTabla.Add(Tabla);
+            listathompsons = Lista;
         }
 
         public void agregar()
@@ -207,5 +212,35 @@ namespace Proyecto1_201701187
 
 
         }
+
+        private void analyzeLexemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thompson thompson = null;
+            richTextBox1.Clear();
+            for (int i = 0; i < listathompsons.Count; i++)
+            {
+                if (listathompsons.ElementAt(i).Namefile.Equals(AFN.SelectedText))
+                {
+                    thompson = listathompsons[i];
+                    break;
+                }
+            }
+
+            if (thompson!=null)
+            {
+                selected = thompson;
+                foreach (Lexema validar in lista_lexema)
+                {
+                    if (validar.NameEr.Equals(selected.NameEr))
+                    {
+                        Console.WriteLine("TODO BIEN VAMOS POR EL 100");
+                     
+                    }
+                }
+            }
+
+        }
+
+      
     }
 }
