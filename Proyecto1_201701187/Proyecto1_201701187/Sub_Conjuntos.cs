@@ -383,8 +383,27 @@ namespace Proyecto1_201701187
                 Console.WriteLine();
             }
 
+            apuntador = 0;
+            for (int i = 1; i < fila; i++)
+            {
 
+                if (Table_States.ElementAt(apuntador).final==true)
+                {
+
+                    table_matriz[i, 0] = Table_States.ElementAt(apuntador).Name_Char+"*";
+                    apuntador++;
+                }
+                else
+                {
+
+                    table_matriz[i, 0] = Table_States.ElementAt(apuntador).Name_Char;
+                    apuntador++;
+                }
             }
+
+
+
+        }
 
 
 

@@ -157,7 +157,7 @@ namespace Proyecto1_201701187
             }
 
             Form1 mandar = new Form1();
-            mandar.Lexemas(lista_lexema);
+           // mandar.Lexemas(lista_lexema);
 
 
         }
