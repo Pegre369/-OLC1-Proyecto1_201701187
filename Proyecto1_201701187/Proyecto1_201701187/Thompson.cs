@@ -14,14 +14,13 @@ namespace Proyecto1_201701187
         Sub_Conjuntos deterministas;
         String nameEr;
         string namefile;
-        public Thompson(List<Lista_ER>er, String nombreer, String nameAFN, String nameAFD, String nameTable)
+        public Thompson(List<Lista_ER>er, String nameAFN, String nameAFD, String nameTable)
         {
 
             this.er = er;
             Root = create();
             Root.creation_alphabet(er);
             Root.graph(nameAFN);
-            this.NameEr = nombreer;
             this.Namefile = nameAFN;
             Sub_Conjuntos s = new Sub_Conjuntos(Root, nameAFD, nameTable);
             this.Deterministas = s;
@@ -116,7 +115,8 @@ namespace Proyecto1_201701187
                 case "aparicion": 
                     i++;
                     Automata section_appearance = create();
-                    Automata section_epsilon = afnSimple(new Lista_ER("ε", "Epsilon")); 
+                    Automata section_epsilon = afnSimple(new Lista_ER("ε", "Epsilon"));
+                    //i--;
                     Automata answer_appearance = Positiva(section_appearance, section_epsilon); 
                     return answer_appearance;
                     break;
