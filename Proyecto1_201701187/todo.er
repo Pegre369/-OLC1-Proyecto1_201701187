@@ -1,0 +1,11 @@
+<!
+   alungos conjuntos simples
+!>
+
+CONJ: letras -> a~z;
+CONJ: enter -> \n;
+CONJ: num -> 0~9
+cualquiercosa -> [:TODO:]; 
+CONJ: car_esp -> \n,\t; //A,S,L,T,O,R,U 
+exp -> . * | | | {cualquiercosa} {car_esp} "\"" "'" ";"; 
+exp: "U \"R\" OT 'LS' A";//correcto 

@@ -33,7 +33,7 @@ namespace Proyecto1_201701187
                     while (ListaTokens[i].getId() != 31)
                     {
                         //Verificar si es el punto de concatenacion
-                        if (ListaTokens[i].getId() == 17)
+                        if (ListaTokens[i].getId() == 17 || ListaTokens[i].getId() == 14|| ListaTokens[i].getId() == 13|| ListaTokens[i].getId() == 20)
                         {
                             if (cadena == null)
                             {
